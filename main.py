@@ -20,14 +20,22 @@ points = 0
 total_shots = 0
 # 0 = free play, 1 = accuracy, 2 = timed
 mode = 0
-ammo = 0
+ammo = 81
 time_passed = 0
 time_remaining = 0
 counter = 1
+best_freeplay = 0
+best_ammo = 0
+best_timed = 0
 shot = False
 menu = True
 game_over = False
 pause = False
+clicked = False
+write_values = False
+menu_img = pygame.image.load("assets/menus/mainMenu.png")
+game_over_img = pygame.image.load("assets/menus/gameOver.png")
+pause_img = pygame.image.load("assets/menus/pause.png")
 for i in range(1, 4):
     bgs.append(pygame.image.load(f"assets/bg/{i}.png"))
     banners.append(pygame.image.load(f"assets/banner/{i}.png"))
@@ -55,7 +63,7 @@ def draw_score():
         mode_text = font.render(f"Ammo Remaining: {ammo}", True, "black")
     if mode == 2:
         mode_text = font.render(f"Timed Remaining {time_remaining} ", True, "black")
-        screen.blit(mode_text, (320, 741))
+    screen.blit(mode_text, (320, 741))
     
 def draw_gun():
     mouse_pos = pygame.mouse.get_pos()
@@ -124,7 +132,52 @@ def check_shot(targets, coords):
 
 
 def draw_menu():
-    pass
+    global game_over, pause, mode, level, menu, time_passed, total_shots, points, ammo
+    global time_remaining, best_freeplay, best_ammo, best_timed, write_values
+    game_over = False
+    pause = False
+    screen.blit(menu_img, (0, 0))
+    mouse_pos = pygame.mouse.get_pos()
+    clicks = pygame.mouse.get_pressed()
+    freeplay_buttom = pygame.rect.Rect((170,524), (260, 100))
+    screen.blit(font.render(f"{best_freeplay}", True, "black"), (340, 580))
+    ammo_buttom = pygame.rect.Rect((475, 524), (260, 100))
+    screen.blit(font.render(f"{best_ammo}", True, "black"), (650, 580))
+    timed_buttom = pygame.rect.Rect((170, 661), (260, 100))
+    screen.blit(font.render(f"{best_timed}", True, "black"), (350, 710))
+    reset_buttom = pygame.rect.Rect((475, 661), (260, 100))
+    if freeplay_buttom.collidepoint(mouse_pos) and clicks[0] and not clicked:
+        mode = 0
+        level = 1 
+        menu = False
+        time_passed = 0
+        total_shots = 0
+        points = 0
+    if ammo_buttom.collidepoint(mouse_pos) and clicks[0] and not clicked:
+        mode = 1
+        level = 1
+        menu = False
+        time_passed = 0
+        ammo = 81
+        total_shots = 0
+        points = 0
+    if timed_buttom.collidepoint(mouse_pos) and clicks[0] and not clicked:
+        mode = 2
+        level = 1
+        menu = False
+        time_remaining = 30
+        time_passed = 0
+        total_shots = 0
+        points = 0
+    if reset_buttom.collidepoint(mouse_pos) and clicks[0] and not clicked:
+        best_freeplay = 0
+        best_ammo = 0
+        best_timed = 0
+        write_values = True
+
+
+
+
 
 def draw_game_over():
     pass
