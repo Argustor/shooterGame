@@ -15,7 +15,7 @@ target_images = [[], [], []]
 targets = {1: [10, 5, 3], 
           2: [12, 8, 5], 
           3: [15, 12, 8, 3]}
-level = 1
+level = 0
 points = 0
 total_shots = 0
 # 0 = free play, 1 = accuracy, 2 = timed
@@ -25,6 +25,9 @@ time_passed = 0
 time_remaining = 0
 counter = 1
 shot = False
+menu = True
+game_over = False
+pause = False
 for i in range(1, 4):
     bgs.append(pygame.image.load(f"assets/bg/{i}.png"))
     banners.append(pygame.image.load(f"assets/banner/{i}.png"))
@@ -120,6 +123,17 @@ def check_shot(targets, coords):
     return coords
 
 
+def draw_menu():
+    pass
+
+def draw_game_over():
+    pass
+
+def draw_pause():
+    pass
+
+
+
 #initialize enemy coordinates
 one_coords = [[], [], []]
 two_coords = [[], [], []]
@@ -159,6 +173,10 @@ while run:
     if game_over:
         level = 0
         draw_game_over()
+    if pause:
+        level = 0
+        draw_pause()
+        
     if level == 1:
         target_boxes = draw_level(one_coords)
         one_coords = move_level(one_coords)
